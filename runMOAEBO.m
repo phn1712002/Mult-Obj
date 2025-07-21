@@ -1,6 +1,11 @@
 clear
 close all
 clc
+%% All Lib
+addpath('algorithms');
+addpath('utils');
+addpath('measurement');
+addpath('problems');
 
 %% Khai báo hàm mục tiêu
 % fobj  - Thông tin của hàm
