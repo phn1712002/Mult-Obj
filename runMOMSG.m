@@ -6,19 +6,20 @@ clc
 % fobj  - Thông tin của hàm
 % nVar  - Số lượng chiều của hàm c
 % lb,ub - Điều kiện biên
-% is_maximization_or_minization - Max = true, min = false
-nVar = 4;
-is_maximization_or_minization = false;
-problem = ZDTProblems('ZDT1', nVar, is_maximization_or_minization);
+problem = myFitness();
 fobj = @(x) problem.calculation(x);
 f_evaluate = @(x, y) problem.evaluate(x, y);
+is_maximization_or_minization = problem.is_maximization_or_minization;
+nVar = problem.nVar;
 lb = problem.LB;	
 ub = problem.UB;
 
 %% Đầu vào cho MO-MSG
-%Pop_num     
+%Pop_num        - Số lượng quần thể
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
+%c
+%SAP
 Pop_num = 50;               
 c=0.2;
 SAP=0.7;
