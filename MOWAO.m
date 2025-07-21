@@ -25,15 +25,7 @@
 function eva_curve = MOWAO(fobj,is_maximization_or_minization,nVar,lb,ub,Whales_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy cá voi
 Whales=CreateEmptyParticle(Whales_num);
-for i=1:Whales_num
-    Whales(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Whales(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-    end
-    Whales(i).Cost=fobj(Whales(i).Position);
-    Whales(i).Best.Position=Whales(i).Position;
-    Whales(i).Best.Cost=Whales(i).Cost;
-end
+Whales=Initialization(Whales, nVar, ub, lb, fobj);
 
 
 % Khởi tạo kho lưu trữ

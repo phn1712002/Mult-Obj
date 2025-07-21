@@ -14,11 +14,11 @@ nVar = problem.nVar;
 lb = problem.LB;	
 ub = problem.UB;
 
-%% Đầu vào cho MO-GWO
-%GreyWolves_num - Số lượng bầy sói
+%% Đầu vào cho MO-MGO
+%SearchAgents_num - Số lượng bầy sói
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
-GreyWolves_num = 100;		
+SearchAgents_num = 100;		
 MaxIt = 100;  					
 Archive_size = 50;   			
 
@@ -29,7 +29,7 @@ beta = 4;     		% Leader Selection Pressure Parameter
 gamma = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
 
 %% Run
-eva_curve = MOGWO (fobj,is_maximization_or_minization,nVar,lb,ub,GreyWolves_num,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);
+eva_curve = MOMGO (fobj,is_maximization_or_minization,nVar,lb,ub,SearchAgents_num,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);
 problem.plot_eva(eva_curve);
 
 
