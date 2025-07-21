@@ -58,9 +58,7 @@ for it = 1:MaxIt
             newsol.Cost = Fobj(newsol.Position);
             
             % Comparision
-            if Dominates(newsol.Cost, Pop(i))
-                Pop(i) = newsol;
-            end
+            Pop(i) = newsol;
 
             % Learner Phase
             for i = 1:Pop_num
@@ -88,10 +86,7 @@ for it = 1:MaxIt
                 newsol.Cost = Fobj(newsol.Position);
                 
                 % Comparision
-                if Dominates(newsol.Cost, Pop(i))
-                    Pop(i) = newsol;
-                end
-                
+                Pop(i) = newsol;
             end
         end
     [Pop,Archive,G] = AddNewSolToArchive(Pop,Archive,Archive_size,G,nGrid,alphaF,gammaF);

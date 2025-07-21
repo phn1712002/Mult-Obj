@@ -11,20 +11,21 @@ fobj = @(x) problem.calculation(x);
 f_evaluate = @(x, y) problem.evaluate(x, y);
 is_maximization_or_minization = problem.is_maximization_or_minization;
 nVar = problem.nVar;
-Lb = problem.LB;	
-Ub = problem.UB;
+lb = problem.LB;	
+ub = problem.UB;
 
-%% Đầu vào cho MO-MOSA
-%MaxIt      - Maximum Number of Iterations
-%MaxSubIt   - Maximum Number of Sub-iterations
-%T0         - Initial Temp.
-%alpha_rate      - Temp. Reduction Rate
-nSol = 50;
-MaxIt = 250;      
-MaxSubIt = 15;    
-T0 = 25;      
-alpha_rate = 0.9;     
-Archive_size = 100;       
+%% Đầu vào cho MO-MOPDO
+%X_num          - Số lượng quần thể
+%MaxIt          - Số lượng vòng lặp
+%Archive_size   - Số lượng kho lưu trữ
+%rho            - Account for individual PD difference
+%epsPD          - Food source alarm
+X_num = 50;          
+rho = 0.5;
+epsPD = 0.1;                
+MaxIt = 100;                           
+Archive_size = 100;        
+
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
 alpha = 0.1;  		% Grid Inflation Parameter
@@ -33,5 +34,5 @@ beta = 0.1;     		% Leader Selection Pressure Parameter
 gamma = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
 
 %% Run
-eva_curve = MOSA(fobj,is_maximization_or_minization,nVar,Lb,Ub,nSol,MaxIt,MaxSubIt,T0,alpha_rate,Archive_size,alpha,nGrid,beta,gamma,f_evaluate)
+eva_curve = MOPDO (fobj,is_maximization_or_minization,nVar,lb,ub,X_num,rho,epsPD,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);
 problem.plot_eva(eva_curve);
