@@ -6,12 +6,11 @@ clc
 % fobj  - Thông tin của hàm
 % nVar  - Số lượng chiều của hàm c
 % lb,ub - Điều kiện biên
-% is_maximization_or_minization - Max = true, min = false
-nVar = 4;
-is_maximization_or_minization = false;
-problem = ZDTProblems('ZDT1', nVar, is_maximization_or_minization);
+problem = myFitness();
 fobj = @(x) problem.calculation(x);
 f_evaluate = @(x, y) problem.evaluate(x, y);
+is_maximization_or_minization = problem.is_maximization_or_minization;
+nVar = problem.nVar;
 lb = problem.LB;	
 ub = problem.UB;
 
