@@ -22,15 +22,7 @@
 function eva_curve = MOCS(fobj,is_maximization_or_minization,nVar,lb,ub,nestsCuckoos_num,pa,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo một quần thể chim và tổ chim, coi tổ chim và chim Cuckoo là như nhau
 nestsCuckoos=CreateEmptyParticle(nestsCuckoos_num);
-for i=1:nestsCuckoos_num
-    nestsCuckoos(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        nestsCuckoos(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-    end
-    nestsCuckoos(i).Cost=fobj(nestsCuckoos(i).Position);
-    nestsCuckoos(i).Best.Position=nestsCuckoos(i).Position;
-    nestsCuckoos(i).Best.Cost=nestsCuckoos(i).Cost;
-end
+nestsCuckoos=Initialization(nestsCuckoos, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ các giải pháp
 nestsCuckoos=DetermineDomination(nestsCuckoos);

@@ -21,15 +21,7 @@ function eva_curve = MOABC(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Foods_n
 
 % Khởi tạo khu vực thức ăn của bầy ong
 Foods=CreateEmptyParticle(Foods_num);
-for i=1:Foods_num
-    Foods(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Foods(i).Position(1,j)=unifrnd(Lb(j),Ub(j),1);
-    end
-    Foods(i).Cost=Fobj(Foods(i).Position);
-    Foods(i).Best.Position=Foods(i).Position;
-    Foods(i).Best.Cost=Foods(i).Cost;
-end
+Foods=Initialization(Foods, nVar, Ub, Lb, Fobj);
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Foods=DetermineDomination(Foods);

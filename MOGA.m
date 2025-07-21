@@ -25,15 +25,7 @@
 function eva_curve = MOGA(fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,Num_Chr,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy cá voi
 X=CreateEmptyParticle(Num_Chr);
-for i=1:Num_Chr
-    X(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        X(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-        X(i).Cost=fobj(X(i).Position);
-        X(i).Best.Position=X(i).Position;
-        X(i).Best.Cost=X(i).Cost;
-    end
-end
+X=Initialization(X, nVar, ub, lb, fobj);
 
 % Khởi tạo
 X=DetermineDomination(X);

@@ -16,16 +16,7 @@
 function eva_curve = MOAEBO(fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy 
 Pops=CreateEmptyParticle(Pops_num);
-for i=1:Pops_num
-    Pops(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Pops(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-    end
-    Pops(i).Cost=fobj(Pops(i).Position);
-    Pops(i).Best.Position=Pops(i).Position;
-    Pops(i).Best.Cost=Pops(i).Cost;
-end
-
+Pops=Initialization(Pops, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ
 Pops=DetermineDomination(Pops);

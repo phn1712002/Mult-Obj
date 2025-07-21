@@ -10,14 +10,8 @@
 function eva_curve = MOTLB(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy chim
 Pop=CreateEmptyParticle(Pop_num);
+Pop=Initialization(Pop, nVar, Ub, Lb, Fobj);
 VarSize=[1 nVar];
-for i=1:Pop_num
-    Pop(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Pop(i).Position(1,j)=unifrnd(Lb(j),Ub(j),1);
-    end
-    Pop(i).Cost=Fobj(Pop(i).Position);
-end
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Pop=DetermineDomination(Pop);

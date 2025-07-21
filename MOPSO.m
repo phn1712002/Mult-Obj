@@ -12,17 +12,8 @@
 function eva_curve = MOPSO(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Weight,Weightdamp,personalCoefficient,globalCoefficient,mutationRate,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy chim
 Pop=CreateEmptyParticle(Pop_num);
+Initialization(Pop, nVar, Ub, Lb, Fobj);
 VarSize=[1 nVar];
-for i=1:Pop_num
-    Pop(i).Velocity = 0; 
-    Pop(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Pop(i).Position(1,j)=unifrnd(Lb(j),Ub(j),1);
-    end
-    Pop(i).Cost=Fobj(Pop(i).Position);
-    Pop(i).Best.Position=Pop(i).Position;
-    Pop(i).Best.Cost=Pop(i).Cost;
-end
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Pop=DetermineDomination(Pop);

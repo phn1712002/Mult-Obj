@@ -16,15 +16,7 @@
 function eva_curve = MOACO(fobj,is_maximization_or_minization,nVar,lb,ub,Ants_num,n_Sample,q,zeta,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy kiến
 Ants=CreateEmptyParticle(Ants_num);
-for i=1:Ants_num
-    Ants(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        Ants(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-    end
-    Ants(i).Cost=fobj(Ants(i).Position);
-    Ants(i).Best.Position=Ants(i).Position;
-    Ants(i).Best.Cost=Ants(i).Cost;
-end
+Ants=Initialization(Ants, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ
 Ants=DetermineDomination(Ants);

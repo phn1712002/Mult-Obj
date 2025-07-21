@@ -15,15 +15,7 @@
 function eva_curve = MOGWO(fobj,is_maximization_or_minization,nVar,lb,ub,GreyWolves_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo một bầy sói
 GreyWolves=CreateEmptyParticle(GreyWolves_num);
-for i=1:GreyWolves_num
-    GreyWolves(i).Position=zeros(1,nVar);
-    for j=1:nVar
-        GreyWolves(i).Position(1,j)=unifrnd(lb(j),ub(j),1);
-    end
-    GreyWolves(i).Cost = fobj(GreyWolves(i).Position);
-    GreyWolves(i).Best.Position=GreyWolves(i).Position;
-    GreyWolves(i).Best.Cost=GreyWolves(i).Cost;
-end
+GreyWolves=Initialization(GreyWolves, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ
 GreyWolves=DetermineDomination(GreyWolves);
