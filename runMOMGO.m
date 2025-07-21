@@ -4,7 +4,7 @@ clc
 %% All Lib
 addpath('algorithms');
 addpath('utils');
-addpath('measurement');
+addpath('measurements');
 addpath('problems');
 
 %% Khai báo hàm mục tiêu

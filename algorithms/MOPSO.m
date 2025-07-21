@@ -12,7 +12,7 @@
 function eva_curve = MOPSO(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Weight,Weightdamp,personalCoefficient,globalCoefficient,mutationRate,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy chim
 Pop=CreateEmptyParticle(Pop_num);
-Initialization(Pop, nVar, Ub, Lb, Fobj);
+Pop=Initialization(Pop, nVar, Ub, Lb, Fobj);
 VarSize=[1 nVar];
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
