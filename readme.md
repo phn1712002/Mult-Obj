@@ -7,7 +7,7 @@ Dự án cung cấp các triển khai bằng MATLAB của các thuật toán t�
 ## Cấu trúc file
 
 ```
-Mult-Obj/
+Multi-Obj/
 ├── algorithms/         # Thư mục chứa các file triển khai thuật toán
 │   ├── MOABC.m            # Artificial Bee Colony
 │   ├── MOACO.m            # Ant Colony Optimization
