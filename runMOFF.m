@@ -13,7 +13,7 @@ addpath('problems');
 % lb,ub - Điều kiện biên
 problem = myFitness();
 fobj = @(x) problem.calculation(x);
-f_evaluate = @(x, y) problem.evaluate(x, y);
+f_callbacks = @(x, y) problem.callbacks(x, y);
 is_maximization_or_minization = problem.is_maximization_or_minization;
 nVar = problem.nVar;
 lb = problem.LB;	
@@ -45,5 +45,5 @@ betaF = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
 gammaF = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
-eva_curve = MOFF (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,gamma,beta0,alpha,alpha_damp,delta,m,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);
-problem.plot_eva(eva_curve);
+callback_outputs = MOFF (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,gamma,beta0,alpha,alpha_damp,delta,m,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks);
+problem.plot_callbacks(callback_outputs);

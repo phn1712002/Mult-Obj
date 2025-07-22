@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOACO
-function eva_curve = MOACO(fobj,is_maximization_or_minization,nVar,lb,ub,Ants_num,n_Sample,q,zeta,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOACO(fobj,is_maximization_or_minization,nVar,lb,ub,Ants_num,n_Sample,q,zeta,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy kiến
 Ants=CreateEmptyParticle(Ants_num);
 Ants=Initialization(Ants, nVar, ub, lb, fobj);
@@ -23,12 +23,12 @@ Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
 VarSize=[1 nVar];   % Variables Matrix Size
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 
-% Sort Ramdon Population
+% Sắp xếp dân số Ramdon
 Ants = SortPops(Ants,Archive,betaF);
 
 % Solution Weights
@@ -41,13 +41,13 @@ p=w/sum(w);
 % MOACO bắt đầu
 for it=1:MaxIt
     
-    % Means
+    % Trung bình
     s=zeros(Ants_num,nVar);
     for l=1:Ants_num
         s(l,:)=Ants(l).Position;
     end
 
-    % Standard Deviations
+    % Độ lệch chuẩn
     sigma=zeros(Ants_num,nVar);
     for l=1:Ants_num
         D=0;
@@ -57,21 +57,21 @@ for it=1:MaxIt
         sigma(l,:)=zeta*D/(Ants_num-1);
     end
 
-    % Create New Population Array
+    % Tạo mới
     Ants_new=CreateEmptyParticle(n_Sample);
     resultTemp = Inf;
     for t=1:n_Sample
         
-        % Initialize Position Matrix
+        % Tính toán giải pháp
         Ants_new(t).Position=zeros(VarSize);
         
-        % Solution Construction
+        % Xây dựng giải pháp
         for i=1:nVar
             
-            % Select Gaussian Kernel
+            % Chọn kernel Gaussian
             l=RouletteWheelSelection(p);
             
-            % Generate Gaussian Random Variable
+            % Tạo biến ngẫu nhiên Gaussian
             resultTemp = s(l,i)+sigma(l,i)*randn;
             while resultTemp <= lb(i) && resultTemp >= ub(i) 
                 resultTemp = s(l,i)+sigma(l,i)*randn;
@@ -80,29 +80,30 @@ for it=1:MaxIt
             
         end
         
-        % Evaluation
+        % Tính toán 
         Ants_new(t).Cost=fobj(Ants_new(t).Position);
         
     end
-    % Merge Main Population (Archive) and New Population (Samples)
+
+    % Hợp nhất dân số chính (lưu trữ) và dân số mới (mẫu
     Ants=[Ants; Ants_new];
 
-    % Sort Ramdon Population
+    % Sắp xếp dân số Ramdon
     Ants = SortPops(Ants,Archive,betaF);
 
-    % Delete Extra Members
+    % Xóa các thành viên bổ sung
     Ants=Ants(1:Ants_num);
 
     % Lưu lại các cá voi có phù hợp vào kho lưu trữ
     [Ants,Archive,G] = AddNewSolToArchive(Ants,Archive,Archive_size,G,nGrid,alphaF,gammaF);
 
-    % Plot
+    % Vẽ đồ thị xuất thông tin
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     plotChart(Ants, Archive, nCost, 50, is_maximization_or_minization);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(Ants)',GetCosts(Ants)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(Ants)',GetCosts(Ants)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 end
 % Xuất kết quả

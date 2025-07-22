@@ -5,7 +5,6 @@ classdef myFitness
         LB          % Giới hạn dưới của biến đầu vào
         UB          % Giới hạn trên của biến đầu vào
         true_pareto % Pareto front thực sự (dùng tính IGD/GD/HV)
-        ref_point   % Điểm tham chiếu cho Hypervolume
         is_maximization_or_minization % Lựa chọn giá trị tìm max hoặc min (max - true và min - false)
     end
     methods
@@ -30,18 +29,18 @@ classdef myFitness
             end
         end
 
-        function  eva_out = evaluate(obj, practice_x, practice_y)
+        function  output = callbacks(obj, practice_x, practice_y)
             % Theo dõi F theo total min của F_n
             total = sum(practice_y, 2);
             [~, IndexMin] = min(total);
             f_monitor = practice_y(IndexMin, :);
 
-            eva_out = f_monitor;
+            output = f_monitor;
         end 
 
-        function plot_eva(obj, eva_curve)
+        function plot_callbacks(obj, callback_outputs)
             % Update F plot
-            f_monitor = eva_curve(:,1:end);
+            f_monitor = callback_outputs(:,1:end);
             nPlots = size(f_monitor, 2);
             
             for i=1:nPlots

@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOGWO
-function eva_curve = MOGWO(fobj,is_maximization_or_minization,nVar,lb,ub,GreyWolves_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOGWO(fobj,is_maximization_or_minization,nVar,lb,ub,GreyWolves_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo một bầy sói
 GreyWolves=CreateEmptyParticle(GreyWolves_num);
 GreyWolves=Initialization(GreyWolves, nVar, ub, lb, fobj);
@@ -22,7 +22,7 @@ Archive=GetNonDominatedParticles(GreyWolves);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
@@ -62,7 +62,7 @@ for it=1:MaxIt
         GreyWolves(i).Position=(X1+X2+X3)./3;
         
         % Cập nhật quá trình sau chuyến đi săn
-        GreyWolves(i).Position=min(max(GreyWolves(i).Position,lb),ub);
+        GreyWolves(i).Position = SimpleBounds(GreyWolves(i).Position, lb, ub);
         GreyWolves(i).Cost = fobj(GreyWolves(i).Position);
     end
     % Lưu lại các sói có phù hợp vào kho lưu trữ
@@ -73,10 +73,10 @@ for it=1:MaxIt
     
     plotChart(GreyWolves, Archive, nCost, 50, is_maximization_or_minization);
     
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(GreyWolves)',GetCosts(GreyWolves)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(GreyWolves)',GetCosts(GreyWolves)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 
 end

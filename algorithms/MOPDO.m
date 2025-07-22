@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOPDO
-function eva_curve = MOPDO(fobj,is_maximization_or_minization,nVar,lb,ub,X_num,rho,epsPD,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOPDO(fobj,is_maximization_or_minization,nVar,lb,ub,X_num,rho,epsPD,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy 
 X=CreateEmptyParticle(X_num);
 X=Initialization(X, nVar, ub, lb, fobj);
@@ -22,7 +22,7 @@ Archive=GetNonDominatedParticles(X);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
@@ -37,10 +37,10 @@ for it=1:MaxIt
         mu = 1;
     end
     
-    DS = 1.5 * randn * (1 - it / MaxIt) ^ (2 * it / MaxIt) * mu; % Digging strength
-    PE = 1.5 * (1 - it / MaxIt) ^ (2 * it / MaxIt) * mu; % Predator effect
-    RL = Levym(X_num, nVar, 1.5); % Levy random number vector
-    TPD = repmat(Best.Position, X_num, 1); %Top PD
+    DS = 1.5 * randn * (1 - it / MaxIt) ^ (2 * it / MaxIt) * mu; % Sức mạnh Digging 
+    PE = 1.5 * (1 - it / MaxIt) ^ (2 * it / MaxIt) * mu; % Hiệu ứng động vật ăn thịt
+    RL = Levym(X_num, nVar, 1.5); % Chuyến bay Levy tạo vector số ngẫu nhiên
+    TPD = repmat(Best.Position, X_num, 1); % Top PD
 
     for i = 1:X_num
         for j = 1:nVar
@@ -66,13 +66,13 @@ for it=1:MaxIt
     % Lưu lại các cá voi có phù hợp vào kho lưu trữ
     [X,Archive,G] = AddNewSolToArchive(X,Archive,Archive_size,G,nGrid,alphaF,gammaF);
     
+    % Xuất và vẽ thông tin đồ thị
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-    
     plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(X)',GetCosts(X)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(X)',GetCosts(X)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 end
 % Xuất kết quả

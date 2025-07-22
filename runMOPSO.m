@@ -13,7 +13,7 @@ addpath('problems');
 % lb,ub - Điều kiện biên
 problem = myFitness();
 fobj = @(x) problem.calculation(x);
-f_evaluate = @(x, y) problem.evaluate(x, y);
+f_callbacks = @(x, y) problem.callbacks(x, y);
 is_maximization_or_minization = problem.is_maximization_or_minization;
 nVar = problem.nVar;
 lb = problem.LB;	
@@ -43,5 +43,5 @@ beta = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
 gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
-eva_curve = MOPSO (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Weight,Weightdamp,Personal_Coefficient,Global_Coefficient,Mutation_Rate,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);
-problem.plot_eva(eva_curve);
+callback_outputs = MOPSO (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Weight,Weightdamp,Personal_Coefficient,Global_Coefficient,Mutation_Rate,Archive_size,alpha,nGrid,beta,gamma,f_callbacks);
+problem.plot_callbacks(callback_outputs);

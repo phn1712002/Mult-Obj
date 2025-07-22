@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization 
 %% MOWAO
-function eva_curve = MOWAO(fobj,is_maximization_or_minization,nVar,lb,ub,Whales_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOWAO(fobj,is_maximization_or_minization,nVar,lb,ub,Whales_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy cá voi
 Whales=CreateEmptyParticle(Whales_num);
 Whales=Initialization(Whales, nVar, ub, lb, fobj);
@@ -23,7 +23,7 @@ Archive=GetNonDominatedParticles(Whales);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
@@ -66,7 +66,7 @@ for it=1:MaxIt
             Whales(i).Position=distance2Leader*exp(b.*l).*cos(l.*2*pi)+LeaderWhales.Position;
         end
         % Cập nhật giá trị sau khi đi chuyến săn
-        Whales(i).Position=min(max(Whales(i).Position,lb),ub);
+        Whales(i).Position = SimpleBounds(Whales(i).Position, lb, ub);
         Whales(i).Cost=fobj(Whales(i).Position);
     end
     
@@ -76,10 +76,10 @@ for it=1:MaxIt
     % Plot
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     plotChart(Whales, Archive, nCost, 50, is_maximization_or_minization);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(Whales)',GetCosts(Whales)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(Whales)',GetCosts(Whales)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 end
 % Xuất kết quả

@@ -11,8 +11,8 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOTLB
-function eva_curve = MOSA(Fobj,is_maximization_or_minization,nVar,Lb,Ub,nSol,MaxIt,MaxSubIt,T0,alpha,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
-% Khởi tạo bầy chim
+function callback_outputs = MOSA(Fobj,is_maximization_or_minization,nVar,Lb,Ub,nSol,MaxIt,MaxSubIt,T0,alpha,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+% Khởi tạo bầy
 Sol=CreateEmptyParticle(nSol);
 Sol=Initialization(Sol, nVar, Ub, Lb, Fobj);
 
@@ -22,12 +22,12 @@ Archive=GetNonDominatedParticles(Sol);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 
-% Intialize Temp.
+% Khởi tạo Temp.
 T = T0;
 
 % MOTLB bắt đầu vòng lặp
@@ -42,9 +42,9 @@ for it = 1:MaxIt
             newSol(index).Position = SimpleBounds(newSol(index).Position, Lb, Ub);
             newSol(index).Cost = Fobj(newSol(index).Position);
     
-            if Dominates(newSol(index), Sol(index)) % If NEWSOL is better than SOL
+            if Dominates(newSol(index), Sol(index)) 
                 Sol(index) = newSol(index);
-            else % If NEWSOL is NOT better than SOL
+            else 
     
                 DELTA = (newSol(index).Cost - Sol(index).Cost) / Sol(index).Cost;
     
@@ -58,19 +58,19 @@ for it = 1:MaxIt
         
 
     end
-    % Update Temp.
+    % Cập nhật Temp.
     T = alpha * T;
 
-    % Add
+    % Thêm sol mới
     [Sol,Archive,G] = AddNewSolToArchive(Sol,Archive,Archive_size,G,nGrid,alphaF,gammaF);
 
-    % Plot
+    % Xuất và vẽ đồ thị thông tin
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     plotChart(Sol, Archive, nCost, 50, is_maximization_or_minization);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(Sol)',GetCosts(Sol)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(Sol)',GetCosts(Sol)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 
 end

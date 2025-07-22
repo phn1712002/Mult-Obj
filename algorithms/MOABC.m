@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOABC
-function eva_curve = MOABC(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Foods_num,LimitTrial,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOABC(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Foods_num,LimitTrial,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 
 
 % Khởi tạo khu vực thức ăn của bầy ong
@@ -24,7 +24,7 @@ Archive=GetNonDominatedParticles(Foods);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
@@ -66,13 +66,13 @@ for it = 1:MaxIt
         end
     end
     
-    % Plot
+    % Vẽ đồ thị xuất thông tin
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     plotChart(Foods, Archive, nCost, 50, is_maximization_or_minization);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(Foods)',GetCosts(Foods)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(Foods)',GetCosts(Foods)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 end
 % Xuất kết quả

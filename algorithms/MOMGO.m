@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOMGO
-function eva_curve = MOMGO(fobj,is_maximization_or_minization,nVar,lb,ub,SearchX_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOMGO(fobj,is_maximization_or_minization,nVar,lb,ub,SearchX_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo một bầy sói
 X=CreateEmptyParticle(SearchX_num);
 X=Initialization(X, nVar, ub, lb, fobj);
@@ -22,7 +22,7 @@ Archive=GetNonDominatedParticles(X);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
@@ -37,7 +37,7 @@ for it=1:MaxIt
         value_mean = mean(allPos(RandomSolution,:));
         M = X(randi([(ceil(SearchX_num / 3)), SearchX_num])).Position * floor(rand) + value_mean .* ceil(rand);
 
-        % Calculate the vector of coefficients
+        % Tính toán vectơ của các hệ số
         a2 = -1 + it * ((-1) / MaxIt);
         u = randn(1, nVar);
         v = randn(1, nVar);
@@ -50,7 +50,7 @@ for it=1:MaxIt
         A = randn(1, nVar) .* exp(2 - it * (2 / MaxIt));
         D = (abs(X(i).Position) + abs(Best.Position)) * (2 * rand - 1);
 
-        % Update the location
+        % Cập nhật vị trí
         numLoc = 4;
         Xnew=CreateEmptyParticle(numLoc);
         
@@ -69,7 +69,7 @@ for it=1:MaxIt
             Xnew(m).Cost = fobj(X(m).Position);
         end
         
-        % Adding new gazelles to the herd
+        % Thêm Gazelles mới vào đàn
         X = [X; Xnew];
         [X,Archive,G] = AddNewSolToArchive(X,Archive,Archive_size,G,nGrid,alphaF,gammaF);
         [X, ~] = SortPops(X,Archive,betaF);
@@ -77,15 +77,15 @@ for it=1:MaxIt
         plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
     end
 
-    % Update herd
+    % Cập nhật đàn
     X = X(1:SearchX_num);
 
     % Xuất kết quả
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(X)',GetCosts(X)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(X)',GetCosts(X)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 
 end

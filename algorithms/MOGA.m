@@ -11,7 +11,7 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOGA
-function eva_curve = MOGA(fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,Num_Chr,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOGA(fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,Num_Chr,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy cá voi
 X=CreateEmptyParticle(Num_Chr);
 X=Initialization(X, nVar, ub, lb, fobj);
@@ -25,7 +25,7 @@ for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 nCost = size(GetCosts(X), 1);
-eva_curve = [];
+callback_outputs = [];
 for IndexPop = 1:1:Pops_num
 
     if IndexPop ~= 1
@@ -83,10 +83,10 @@ for IndexPop = 1:1:Pops_num
         plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
     end
     % Lưu lại các cá voi có phù hợp vào kho lưu trữ
-    % Callbacks
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(X)',GetCosts(X)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+        output_cb = f_callbacks(GetPosition(X)',GetCosts(X)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 end
 

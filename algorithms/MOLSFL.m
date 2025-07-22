@@ -11,14 +11,13 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOLSFL
-function eva_curve = MOLSFL(fobj,is_maximization_or_minization,nVar,lb,ub,nPopMemeplex,nMemeplex,alpha,beta,sigma,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+function callback_outputs = MOLSFL(fobj,is_maximization_or_minization,nVar,lb,ub,nPopMemeplex,nMemeplex,alpha,beta,sigma,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo tham số
 nPopMemeplex = max(nPopMemeplex, nVar+1);
 nPop = nMemeplex*nPopMemeplex;	
 VarSize = [1 nVar];  
 I = reshape(1:nPop, nMemeplex, []);
-% Number of Parents
-q = max(round(0.3*nPopMemeplex),2);      
+q = max(round(0.3*nPopMemeplex),2); % Số lượng cha mẹ 
 
 % Khởi tạo một 
 Pops=CreateEmptyParticle(nPop);
@@ -30,7 +29,7 @@ Archive=GetNonDominatedParticles(Pops);
 Archive_costs=GetCosts(Archive);
 G=CreateHypercubes(Archive_costs,nGrid,alphaF);
 nCost = size(GetCosts(Archive), 1);
-eva_curve = [];
+callback_outputs = [];
 for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
@@ -42,19 +41,19 @@ Pops = SortPops(Pops, Archive, betaF);
 Best = Pops(1);
 for it=1:MaxIt
     
-     % Initialize Memeplexes Array
+    % Khởi tạo mảng Memeplexes
     Memeplex = cell(nMemeplex, 1);
 
-    % Form Memeplexes and Run FLA
+    % Hình thành Memeplexes and chạy FLA
     for j = 1:nMemeplex
-        % Memeplex Formation
+        % Memeplex hình thành
         Memeplex{j} = Pops(I(j,:));
         
-        % Run FLA
-        nPop = numel(Memeplex{j});      % Population Size
-        P = 2*(nPop+1-(1:nPop))/(nPop*(nPop+1));    % Selection Probabilities
+        % Chạy FLA
+        nPop = numel(Memeplex{j});                  % Kích thước dân số
+        P = 2*(nPop+1-(1:nPop))/(nPop*(nPop+1));    % Lựa chọn phân phối
         
-        % Calculate Population Range (Smallest Hypercube)
+        % Tính toán phạm vi dân số (hypercube nhỏ nhất)
         LowerBound = Memeplex{j}(1).Position;
         UpperBound = Memeplex{j}(1).Position;
         for i = 2:nPop
@@ -63,21 +62,21 @@ for it=1:MaxIt
         end
 
         for it_beta = 1:beta
-            % Select Parents
+            % Chọn cha mẹ
             L = RandSample(P,q);
             B = Memeplex{j}(L);
 
-            % Generate Offsprings
+            % Tạo ra con cái
             for k=1:alpha
-                % Sort Population
+                % Dân số sắp xếp
                 [B, SortOrder] = SortPops(B, Archive, betaF);
                 L = L(SortOrder);
                 
-                % Flags
+                % Cờ
                 ImprovementStep2 = false;
                 Censorship = false;
                 
-                % Improvement Step 1
+                % Cải thiện Bước 1
                 NewSol1 = B(end);
                 Step = sigma*rand(VarSize).*(B(1).Position-B(end).Position);
                 NewSol1.Position = B(end).Position + Step;
@@ -92,7 +91,7 @@ for it=1:MaxIt
                     ImprovementStep2 = true;
                 end
                 
-                % Improvement Step 2
+                % Cải thiện Bước 2
                 if ImprovementStep2
                     NewSol2 = B(end);
                     Step = sigma*rand(VarSize).*(Best.Position-B(end).Position);
@@ -109,17 +108,16 @@ for it=1:MaxIt
                     end
                 end
                     
-                % Censorship
+                % Kiểm duyệt
                 if Censorship
                     B(end).Position = unifrnd(LowerBound, UpperBound);
                     B(end).Cost = fobj(B(end).Position);
                 end
             end
-            % Return Back Subcomplex to Main Complex
             Memeplex{j}(L) = B;
         end
         
-        % Insert Updated Memeplex into Population
+        % Chèn bản ghi nhớ cập nhật vào dân số
         Pops(I(j,:)) = Memeplex{j};
         % Lưu lại các sói có phù hợp vào kho lưu trữ
         [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
@@ -127,13 +125,13 @@ for it=1:MaxIt
     end
     % Xuất kết quả
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-    % Callbacks
-if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
-        eva_value = f_evaluate(GetPosition(Pops)',GetCosts(Pops)');
-        eva_curve = [eva_curve; eva_value];
+    % Gọi hàm callbacks
+    if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
+            output_cb = f_callbacks(GetPosition(Pops)',GetCosts(Pops)');
+            callback_outputs = [callback_outputs; output_cb];
     end
 
-end
+    end
     OutResults(Archive, is_maximization_or_minization);;
 end
 

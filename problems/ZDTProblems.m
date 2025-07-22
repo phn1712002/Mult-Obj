@@ -87,7 +87,7 @@ classdef ZDTProblems
             end
         end
         
-        function  eva_out = evaluate(obj, practice_x, practice_y)
+        function  eva_out = callbacks(obj, practice_x, practice_y)
             % Calculate current GD and HV values
             current_gd = calculateGD(practice_y, obj.true_pareto);
             current_hv = calculateHV(practice_y, obj.true_pareto);
@@ -100,9 +100,9 @@ classdef ZDTProblems
             eva_out = [current_gd, current_hv, f_monitor];
         end
 
-        function plot_eva(obj, eva_curve)
+        function plot_callbacks(obj, callback_outputs)
             % Update GD plot
-            gd_curve = eva_curve(:,1);
+            gd_curve = callback_outputs(:,1);
             figure('Name', 'Generational Distance Value Progress');
             plot(gd_curve, 'b-o', 'LineWidth', 2);
             xlabel('Iteration');
@@ -111,7 +111,7 @@ classdef ZDTProblems
             grid on;
             
             % Update HV plot
-            hv_curve = eva_curve(:,2);
+            hv_curve = callback_outputs(:,2);
             figure('Name', 'Hypervolume Value Progress');
             plot(hv_curve, 'r-o', 'LineWidth', 2);
             xlabel('Iteration');
@@ -122,7 +122,7 @@ classdef ZDTProblems
             drawnow;
 
             % Update F plot
-            f_monitor = eva_curve(:,end-1:end);
+            f_monitor = callback_outputs(:,end-1:end);
             figure('Name', 'Monitor value F in loop');
             
             label = [];
