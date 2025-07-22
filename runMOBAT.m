@@ -19,7 +19,7 @@ nVar = problem.nVar;
 lb = problem.LB;	
 ub = problem.UB;
 
-%% Đầu vào cho MO-GWS
+%% Đầu vào cho MO-BAT
 %Pop_num        - Số lượng bầy 
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
