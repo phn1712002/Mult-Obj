@@ -1,26 +1,15 @@
 %%
 % Người sáng tạo        : Phạm Hoàng Nam
-% Gmail                 : phn1712002@gmail.com 
-% Tài liệu tham khảo    : 
-%   
-% - Multi-Objective Whale Optimization Algorithm (PDF)
-%       https://www.mdpi.com/1424-8220/21/8/2628
-%       By Mengxing Huang
-% - Whale Optimization Algorithm
-%       https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm
-%       By Wikiversity
-% - WAO (Code)
-%       https://www.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm
-%       By Seyedali Mirjalili
-% - MOPSO (Code)  
+% Gmail                 : phn1712002@gmail.com
+% Tài liệu tham khảo    :
+% - MOPSO (Code)
 %       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
 %       By Yarpiz
 % - MOGWO (Code)
 %       https://www.mathworks.com/matlabcentral/fileexchange/55979-multi-objective-grey-wolf-optimizer-mogwo
 %       By Seyedali Mirjalili
-% Tất cả nguyên lý dựa trên Single Objective Optimization kết hợp 2 thành phần: 
-% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) 
-% Được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization  
+% Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
+% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization 
 %% MOWAO
 function eva_curve = MOWAO(fobj,is_maximization_or_minization,nVar,lb,ub,Whales_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy cá voi

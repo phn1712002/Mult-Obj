@@ -1,23 +1,15 @@
 %%
 % Người sáng tạo        : Phạm Hoàng Nam
-% Gmail                 : phn1712002@gmail.com 
-% Tài liệu tham khảo    : 
-%   
-% - A Cuckoo Search Algorithm (PDF)
-%       https://www.hindawi.com/journals/tswj/2014/497514/
-%       By Erik Cuevas
-% - MOCS (Code)
-%       https://www.mathworks.com/matlabcentral/fileexchange/74752-multiobjective-cuckoo-search-mocs
-%       By XS Yang
-% - MOPSO (Code)  
+% Gmail                 : phn1712002@gmail.com
+% Tài liệu tham khảo    :
+% - MOPSO (Code)
 %       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
 %       By Yarpiz
 % - MOGWO (Code)
 %       https://www.mathworks.com/matlabcentral/fileexchange/55979-multi-objective-grey-wolf-optimizer-mogwo
 %       By Seyedali Mirjalili
-% Tất cả nguyên lý dựa trên Single Objective Optimization kết hợp 2 thành phần: 
-% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) 
-% Được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization 
+% Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
+% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOCS
 function eva_curve = MOCS(fobj,is_maximization_or_minization,nVar,lb,ub,nestsCuckoos_num,pa,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo một quần thể chim và tổ chim, coi tổ chim và chim Cuckoo là như nhau

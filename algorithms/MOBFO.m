@@ -1,16 +1,3 @@
-% % %%
-% % Người chỉnh sửa       : Phạm Hoàng Nam
-% % Gmail                 : phn1712002@gmail.com 
-% % Tài liệu tham khảo    : 
-% % - MOPSO (Code)  
-% %       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
-% %       By Yarpiz
-% % - MOBFO (Code)
-% %       https://www.mathworks.com/matlabcentral/fileexchange/55979-multi-objective-grey-wolf-optimizer-MOBFO
-% %       By Seyedali Mirjalili
-% % Tất cả nguyên lý dựa trên Single Objective Optimization kết hợp 2 thành phần: 
-% % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) 
-% % Được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 % %% MOBFO
 % function eva_curve = MOBFO (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,Ns,C,Ped,Nr,Nc,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % % Khởi tạo một bầy sói

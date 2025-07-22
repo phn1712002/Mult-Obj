@@ -2,10 +2,6 @@
 % Người sáng tạo        : Phạm Hoàng Nam
 % Gmail                 : phn1712002@gmail.com
 % Tài liệu tham khảo    :
-%
-% - Multi-Objective Artificial Bee Colony Algorithm (PDF)
-%       https://www.mdpi.com/2227-7390/9/24/3187
-%       By Nien-Che Yang
 % - MOPSO (Code)
 %       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
 %       By Yarpiz
@@ -13,8 +9,7 @@
 %       https://www.mathworks.com/matlabcentral/fileexchange/55979-multi-objective-grey-wolf-optimizer-mogwo
 %       By Seyedali Mirjalili
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
-% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa
-% trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
+% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOABC
 function eva_curve = MOABC(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Foods_num,LimitTrial,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 

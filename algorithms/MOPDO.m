@@ -1,10 +1,15 @@
 %%
 % Người sáng tạo        : Phạm Hoàng Nam
-% Gmail                 : phn1712002@gmail.com 
-% Tài liệu tham khảo    : 
-% Tất cả nguyên lý dựa trên Single Objective Optimization kết hợp 2 thành phần: 
-% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) 
-% Được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization  
+% Gmail                 : phn1712002@gmail.com
+% Tài liệu tham khảo    :
+% - MOPSO (Code)
+%       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
+%       By Yarpiz
+% - MOGWO (Code)
+%       https://www.mathworks.com/matlabcentral/fileexchange/55979-multi-objective-grey-wolf-optimizer-mogwo
+%       By Seyedali Mirjalili
+% Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
+% Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOPDO
 function eva_curve = MOPDO(fobj,is_maximization_or_minization,nVar,lb,ub,X_num,rho,epsPD,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
 % Khởi tạo bầy 
