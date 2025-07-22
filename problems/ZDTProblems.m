@@ -6,16 +6,15 @@ classdef ZDTProblems
         lb          % Giới hạn dưới của biến đầu vào
         ub          % Giới hạn trên của biến đầu vào
         true_pareto % Pareto front thực sự (dùng tính IGD/GD/HV)
-        is_maximization_or_minization % Lựa chọn giá trị tìm max hoặc min (max - true và min - false
+        is_maximization_or_minization % Lựa chọn giá trị tìm max hoặc min (max - true và min - false)
     end
     
     methods
-        function obj = ZDTProblems(problem_name, nVar, is_maximization_or_minization)
+        function obj = ZDTProblems(problem_name, nVar)
             % Constructor: Khởi tạo bài toán ZDT
             obj.name = problem_name;
             obj.nVar = nVar;
-            obj.is_maximization_or_minization = is_maximization_or_minization;
-         
+        
             switch problem_name
                 case 'ZDT1'
                     obj.nObj = 2;
@@ -26,6 +25,7 @@ classdef ZDTProblems
                     f1 = linspace(0, 1, 100)';
                     f2 = 1 - sqrt(f1);
                     obj.true_pareto = [f1, f2];
+                    obj.is_maximization_or_minization = false;
                     
                 case 'ZDT2'
                     obj.nObj = 3;
@@ -37,6 +37,7 @@ classdef ZDTProblems
                     f2 = 1 - f1.^2;
                     f3 = 1 - f1.^3;
                     obj.true_pareto = [f1, f2, f3];
+                    obj.is_maximization_or_minization = false;
                     
                 case 'ZDT5'
                     obj.nObj = 4;
@@ -49,6 +50,7 @@ classdef ZDTProblems
                     f3 = 1 - f1.^2;
                     f4 = 1 - f1.^3;
                     obj.true_pareto = [f1, f2, f3, f4];
+                    obj.is_maximization_or_minization = false;
             end
             obj.true_pareto = obj.true_pareto;
         end

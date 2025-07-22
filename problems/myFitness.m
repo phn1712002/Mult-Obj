@@ -9,13 +9,13 @@ classdef myFitness
     end
     methods
         function obj = myFitness()
-
             obj.nObj = 3;
             obj.nVar = 3;
             obj.lb = [22, 100, 0.3];
             obj.ub = [26, 140, 0.5];
             obj.is_maximization_or_minization = false;
         end
+
         function y = calculation(obj, x) % Đầu vào đầu ra là dạng hàng m x 1
             
             f1 = -326.86-27.29*x(1)-13.65*x(3)-25.44*x(1)*x(2);

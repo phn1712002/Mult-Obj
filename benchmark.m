@@ -11,11 +11,12 @@ addpath('problems');
 % fobj  - Thông tin của hàm
 % nVar  - Số lượng chiều của hàm c
 % lb,ub - Điều kiện biên
-% is_maximization_or_minization - Max = true, min = false
-nVar = 4;
-is_maximization_or_minization = false;
-problem = ZDTProblems('ZDT1', nVar, is_maximization_or_minization);
+nVar = 10;
+problem = ZDTProblems('ZDT1', nVar);
 fobj = @(x) problem.calculation(x);
 f_callbacks = @(x, y) problem.callbacks(x, y);
 lb = problem.lb;	
 ub = problem.ub;
+is_maximization_or_minization = problem.is_maximization_or_minization;
+
+% Copy từ run{Name}.m
