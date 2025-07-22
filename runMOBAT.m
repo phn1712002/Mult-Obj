@@ -23,12 +23,17 @@ ub = problem.UB;
 %Pop_num        - Số lượng bầy 
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
+%Fmax           - Maximum frequency
+%Fmin           - Minimum frequency
+%alpha          - Constant for loudness update
+%gamma          - Constant for emission rate update
+%ro             - Initial pulse emission rate
 Pop_num = 50;
-Fmax=2;                 % Maximum frequency
-Fmin=0;                 % Minimum frequency
-alpha=0.5;              % Constant for loudness update
-gamma=0.5;              % Constant for emission rate update
-ro=0.001;               % Initial pulse emission rate
+Fmax=2;                 
+Fmin=0;                 
+alpha=0.5;              
+gamma=0.5;              
+ro=0.001;              
 MaxIt = 100;  					
 Archive_size = 100;   			
 
