@@ -83,6 +83,7 @@ for IndexPop = 1:1:Pops_num
         plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
     end
     % Lưu lại các cá voi có phù hợp vào kho lưu trữ
+    % Callbacks
     if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
         eva_value = f_evaluate(GetPosition(X)',GetCosts(X)');
         eva_curve = [eva_curve; eva_value];

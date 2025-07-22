@@ -82,6 +82,7 @@ for it = 1:MaxIt
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     
     plotChart(Pop, Archive, nCost, 50, is_maximization_or_minization);
+    % Callbacks
     if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
         eva_value = f_evaluate(GetPosition(Pop)',GetCosts(Pop)');
         eva_curve = [eva_curve; eva_value];

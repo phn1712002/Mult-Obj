@@ -53,10 +53,15 @@ for it=1:MaxIt
             end
             Pops(i).Position = SimpleBounds(Pops(i).Position, lb, ub);
             Pops(i).Cost=fobj(Pops(i).Position);
+            
+            % Add
             [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
+            
+            % Plot
             plotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
     end
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
+    % Callbacks
     if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
         eva_value = f_evaluate(GetPosition(Pops)',GetCosts(Pops)');
         eva_curve = [eva_curve; eva_value];

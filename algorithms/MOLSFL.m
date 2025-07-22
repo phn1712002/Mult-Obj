@@ -126,7 +126,8 @@ for it=1:MaxIt
     end
     % Xuất kết quả
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-    if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
+    % Callbacks
+if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
         eva_value = f_evaluate(GetPosition(Pops)',GetCosts(Pops)');
         eva_curve = [eva_curve; eva_value];
     end

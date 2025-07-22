@@ -62,6 +62,7 @@ for it=1:MaxIt
     
     plotChart(nestsCuckoos, Archive, nCost, 50, is_maximization_or_minization);
     
+    % Callbacks
     if ~isempty(f_evaluate) && isa(f_evaluate,'function_handle')
         eva_value = f_evaluate(GetPosition(nestsCuckoos)',GetCosts(nestsCuckoos)');
         eva_curve = [eva_curve; eva_value];
