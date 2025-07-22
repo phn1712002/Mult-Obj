@@ -10,11 +10,11 @@
 %       By Seyedali Mirjalili
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
-%% MOTLB
-function callback_outputs = MOSA(Fobj,is_maximization_or_minization,nVar,Lb,Ub,nSol,MaxIt,MaxSubIt,T0,alpha,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+%% MOTlb
+function callback_outputs = MOSA(fobj,is_maximization_or_minization,nVar,lb,ub,nSol,MaxIt,MaxSubIt,T0,alpha,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy
 Sol=CreateEmptyParticle(nSol);
-Sol=Initialization(Sol, nVar, Ub, Lb, Fobj);
+Sol=Initialization(Sol, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Sol=DetermineDomination(Sol);
@@ -30,7 +30,7 @@ end
 % Khởi tạo Temp.
 T = T0;
 
-% MOTLB bắt đầu vòng lặp
+% MOTlb bắt đầu vòng lặp
 for it = 1:MaxIt
     
     for subit = 1:MaxSubIt
@@ -39,8 +39,8 @@ for it = 1:MaxIt
 
         for index=1:nSol
             newSol(index).Position = CreateNeighbor(Sol(index).Position);
-            newSol(index).Position = SimpleBounds(newSol(index).Position, Lb, Ub);
-            newSol(index).Cost = Fobj(newSol(index).Position);
+            newSol(index).Position = SimpleBounds(newSol(index).Position, lb, ub);
+            newSol(index).Cost = fobj(newSol(index).Position);
     
             if Dominates(newSol(index), Sol(index)) 
                 Sol(index) = newSol(index);

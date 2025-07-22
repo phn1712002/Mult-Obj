@@ -3,8 +3,8 @@ classdef ZDTProblems
         name        % Tên hàm ('ZDT1', 'ZDT2', 'ZDT5')
         nVar        % Số biến đầu vào
         nObj        % Số đầu ra (2, 3, hoặc 4)
-        LB          % Giới hạn dưới của biến đầu vào
-        UB          % Giới hạn trên của biến đầu vào
+        lb          % Giới hạn dưới của biến đầu vào
+        ub          % Giới hạn trên của biến đầu vào
         true_pareto % Pareto front thực sự (dùng tính IGD/GD/HV)
         is_maximization_or_minization % Lựa chọn giá trị tìm max hoặc min (max - true và min - false
     end
@@ -19,8 +19,8 @@ classdef ZDTProblems
             switch problem_name
                 case 'ZDT1'
                     obj.nObj = 2;
-                    obj.LB = zeros(1, nVar);
-                    obj.UB = ones(1, nVar);
+                    obj.lb = zeros(1, nVar);
+                    obj.ub = ones(1, nVar);
                     
                     % Pareto front thực sự (100 điểm)
                     f1 = linspace(0, 1, 100)';
@@ -29,8 +29,8 @@ classdef ZDTProblems
                     
                 case 'ZDT2'
                     obj.nObj = 3;
-                    obj.LB = zeros(1, nVar);
-                    obj.UB = ones(1, nVar);
+                    obj.lb = zeros(1, nVar);
+                    obj.ub = ones(1, nVar);
 
                     % Pareto front thực sự (100 điểm)
                     f1 = linspace(0, 1, 100)';
@@ -40,8 +40,8 @@ classdef ZDTProblems
                     
                 case 'ZDT5'
                     obj.nObj = 4;
-                    obj.LB = zeros(1, nVar);
-                    obj.UB = ones(1, nVar);
+                    obj.lb = zeros(1, nVar);
+                    obj.ub = ones(1, nVar);
                     
                     % Pareto front thực sự (100 điểm)
                     f1 = linspace(0, 1, 100)';

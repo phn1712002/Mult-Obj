@@ -11,10 +11,10 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOCLJAVA
-function callback_outputs = MOCLJAVA(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+function callback_outputs = MOCLJAVA(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo
 Pops=CreateEmptyParticle(Pop_num);
-Pops=Initialization(Pops, nVar, Ub, Lb, Fobj);
+Pops=Initialization(Pops, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Pops=DetermineDomination(Pops);
@@ -50,8 +50,8 @@ for it = 1:MaxIt
             Pops(i).Position=(Pops(i).Position)+randn.*(Best.Position-abs(Pops(i).Position))-randn.*(value_mean-abs(Pops(i).Position));
         end
 
-        Pops(i).Position = SimpleBounds(Pops(i).Position, Lb, Ub);
-        Pops(i).Cost = Fobj(Pops(i).Position);
+        Pops(i).Position = SimpleBounds(Pops(i).Position, lb, ub);
+        Pops(i).Cost = fobj(Pops(i).Position);
         
         [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
         plotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);

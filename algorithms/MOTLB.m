@@ -10,11 +10,11 @@
 %       By Seyedali Mirjalili
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
-%% MOTLB
-function callback_outputs = MOTLB(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+%% MOTlb
+function callback_outputs = MOTlb(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy
 Pop=CreateEmptyParticle(Pop_num);
-Pop=Initialization(Pop, nVar, Ub, Lb, Fobj);
+Pop=Initialization(Pop, nVar, ub, lb, fobj);
 VarSize=[1 nVar];
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
@@ -28,7 +28,7 @@ for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 
-% MOTLB bắt đầu vòng lặp
+% MOTlb bắt đầu vòng lặp
 for it = 1:MaxIt
     
     % Tính toán trung bình dân số
@@ -55,10 +55,10 @@ for it = 1:MaxIt
             + rand(VarSize).*(Teacher.Position - TF*Mean);
         
         % Cắt
-        newsol.Position = SimpleBounds(newsol.Position, Lb, Ub);
+        newsol.Position = SimpleBounds(newsol.Position, lb, ub);
         
         % Tinsh
-        newsol.Cost = Fobj(newsol.Position);
+        newsol.Cost = fobj(newsol.Position);
         
         % Gộp
         Pop(i) = newsol;
@@ -82,10 +82,10 @@ for it = 1:MaxIt
             newsol.Position = Pop(i).Position + rand(VarSize).*Step;
             
             % Cắt
-            newsol.Position = SimpleBounds(newsol.Position, Lb, Ub);
+            newsol.Position = SimpleBounds(newsol.Position, lb, ub);
             
             % Tính 
-            newsol.Cost = Fobj(newsol.Position);
+            newsol.Cost = fobj(newsol.Position);
             
             % Gộp 
             Pop(i) = newsol;

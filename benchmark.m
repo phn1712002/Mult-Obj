@@ -17,5 +17,5 @@ is_maximization_or_minization = false;
 problem = ZDTProblems('ZDT1', nVar, is_maximization_or_minization);
 fobj = @(x) problem.calculation(x);
 f_callbacks = @(x, y) problem.callbacks(x, y);
-lb = problem.LB;	
-ub = problem.UB;
+lb = problem.lb;	
+ub = problem.ub;

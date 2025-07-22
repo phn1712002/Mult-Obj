@@ -2,8 +2,8 @@ classdef myFitness
     properties
         nVar        % Số biến đầu vào
         nObj        % Số đầu ra (2, 3, hoặc 4)
-        LB          % Giới hạn dưới của biến đầu vào
-        UB          % Giới hạn trên của biến đầu vào
+        lb          % Giới hạn dưới của biến đầu vào
+        ub          % Giới hạn trên của biến đầu vào
         true_pareto % Pareto front thực sự (dùng tính IGD/GD/HV)
         is_maximization_or_minization % Lựa chọn giá trị tìm max hoặc min (max - true và min - false)
     end
@@ -12,8 +12,8 @@ classdef myFitness
 
             obj.nObj = 3;
             obj.nVar = 3;
-            obj.LB = [22, 100, 0.3];
-            obj.UB = [26, 140, 0.5];
+            obj.lb = [22, 100, 0.3];
+            obj.ub = [26, 140, 0.5];
             obj.is_maximization_or_minization = false;
         end
         function y = calculation(obj, x) % Đầu vào đầu ra là dạng hàng m x 1

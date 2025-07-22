@@ -16,8 +16,8 @@ fobj = @(x) problem.calculation(x);
 f_callbacks = @(x, y) problem.callbacks(x, y);
 is_maximization_or_minization = problem.is_maximization_or_minization;
 nVar = problem.nVar;
-lb = problem.LB;	
-ub = problem.UB;
+lb = problem.lb;	
+ub = problem.ub;
 
 %% Đầu vào cho MO-ACO
 %Ants_num       - Số lượng bầy kiến

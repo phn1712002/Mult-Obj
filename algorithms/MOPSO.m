@@ -11,10 +11,10 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOPSO
-function callback_outputs = MOPSO(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Pop_num,MaxIt,Weight,Weightdamp,personalCoefficient,globalCoefficient,mutationRate,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+function callback_outputs = MOPSO(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Weight,Weightdamp,personalCoefficient,globalCoefficient,mutationRate,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy chim
 Pop=CreateEmptyParticle(Pop_num);
-Pop=Initialization(Pop, nVar, Ub, Lb, Fobj);
+Pop=Initialization(Pop, nVar, ub, lb, fobj);
 VarSize=[1 nVar];
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
@@ -39,14 +39,14 @@ for it = 1:MaxIt
             +globalCoefficient*rand(VarSize).*(leaderPop.Position-Pop(i).Position);
         
         Pop(i).Position = Pop(i).Position + Pop(i).Velocity;
-        Pop(i).Position = SimpleBounds(Pop(i).Position, Lb, Ub);
+        Pop(i).Position = SimpleBounds(Pop(i).Position, lb, ub);
 
-        Pop(i).Cost=Fobj(Pop(i).Position);
+        Pop(i).Cost=fobj(Pop(i).Position);
         % Thực hiện đột biến
         pm=(1-(it-1)/(MaxIt-1))^(1/mutationRate);
         if rand < pm
-            NewSol.Position=Mutate(Pop(i).Position,pm,Lb,Ub);
-            NewSol.Cost=Fobj(NewSol.Position);
+            NewSol.Position=Mutate(Pop(i).Position,pm,lb,ub);
+            NewSol.Cost=fobj(NewSol.Position);
             if Dominates(NewSol,Pop(i))
                 Pop(i).Position=NewSol.Position;
                 Pop(i).Cost=NewSol.Cost;

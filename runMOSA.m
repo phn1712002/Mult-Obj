@@ -16,8 +16,8 @@ fobj = @(x) problem.calculation(x);
 f_callbacks = @(x, y) problem.callbacks(x, y);
 is_maximization_or_minization = problem.is_maximization_or_minization;
 nVar = problem.nVar;
-Lb = problem.LB;	
-Ub = problem.UB;
+lb = problem.lb;	
+ub = problem.ub;
 
 %% Đầu vào cho MO-MOSA
 %nSol           - Số lượng bầy 
@@ -39,5 +39,5 @@ beta = 0.1;     		% Tham số áp suất lựa chọn của người dẫn đầ
 gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
-callback_outputs = MOSA(fobj,is_maximization_or_minization,nVar,Lb,Ub,nSol,MaxIt,MaxSubIt,T0,alpha_rate,Archive_size,alpha,nGrid,beta,gamma,f_callbacks)
+callback_outputs = MOSA(fobj,is_maximization_or_minization,nVar,lb,ub,nSol,MaxIt,MaxSubIt,T0,alpha_rate,Archive_size,alpha,nGrid,beta,gamma,f_callbacks)
 problem.plot_callbacks(callback_outputs);

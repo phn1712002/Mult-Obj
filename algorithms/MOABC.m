@@ -11,12 +11,12 @@
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
 %% MOABC
-function callback_outputs = MOABC(Fobj,is_maximization_or_minization,nVar,Lb,Ub,Foods_num,LimitTrial,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+function callback_outputs = MOABC(fobj,is_maximization_or_minization,nVar,lb,ub,Foods_num,LimitTrial,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 
 
 % Khởi tạo khu vực thức ăn của bầy ong
 Foods=CreateEmptyParticle(Foods_num);
-Foods=Initialization(Foods, nVar, Ub, Lb, Fobj);
+Foods=Initialization(Foods, nVar, ub, lb, fobj);
 
 % Khởi tạo kho lưu trữ để lưu các giải pháp
 Foods=DetermineDomination(Foods);
@@ -36,9 +36,9 @@ for it = 1:MaxIt
     LeaderBee=SelectLeader(Archive,betaF);
     for i = 1:Foods_num
         Bee(i).Position = Foods(i).Position+rand.*(LeaderBee.Position-Foods(i).Position);
-        Bee(i).Position = max(Bee(i).Position,Lb);
-        Bee(i).Position = min(Bee(i).Position,Ub);
-        Bee(i).Cost=Fobj(Bee(i).Position);
+        Bee(i).Position = max(Bee(i).Position,lb);
+        Bee(i).Position = min(Bee(i).Position,ub);
+        Bee(i).Cost=fobj(Bee(i).Position);
         Bee(i).Best.Position=Bee(i).Position;
         Bee(i).Best.Cost=Bee(i).Cost;
     end
@@ -56,10 +56,10 @@ for it = 1:MaxIt
         
         % Ong trinh sát tìm kiếm nguồn thức ăn mới cho ong thợ
         if Foods(i).TrialFood >= LimitTrial
-            Foods(i).Position=Lb+(Ub-Lb)*rand();
-            Foods(i).Position = max(Foods(i).Position,Lb);
-            Foods(i).Position = min(Foods(i).Position,Ub);
-            Foods(i).Cost=Fobj(Foods(i).Position);
+            Foods(i).Position=lb+(ub-lb)*rand();
+            Foods(i).Position = max(Foods(i).Position,lb);
+            Foods(i).Position = min(Foods(i).Position,ub);
+            Foods(i).Cost=fobj(Foods(i).Position);
             Foods(i).Best.Position=Foods(i).Position;
             Foods(i).Best.Cost=Foods(i).Cost;
             Foods(i).TrialFood = 0;
