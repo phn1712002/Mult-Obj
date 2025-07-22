@@ -1,7 +1,7 @@
 clear
 close all
 clc
-%% All Lib
+%% Bổ sung các thư viện
 addpath('algorithms');
 addpath('utils');
 addpath('measurements');
@@ -10,7 +10,7 @@ addpath('problems');
 %% Khai báo hàm mục tiêu
 % fobj  - Thông tin của hàm
 % nVar  - Số lượng chiều của hàm c
-% lb,ub - Điều kiện biên
+% lb, ub - Điều kiện biên
 problem = myFitness();
 fobj = @(x) problem.calculation(x);
 f_evaluate = @(x, y) problem.evaluate(x, y);
@@ -24,7 +24,7 @@ ub = problem.UB;
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
 %q              - Hệ số cường độ % (Áp lực chọn lọc)
-%zeta           - Tỷ lệ độ lệch-khoảng cách %
+%zeta           - Tỷ lệ độ lệch - khoảng cách %
 zeta = 1e-5;
 q = 0.5;
 n_Sample = 50;
@@ -34,10 +34,10 @@ Archive_size = 50;
 
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
-alpha = 0.1;  		% Grid Inflation Parameter
-nGrid = 7;   		% Number of Grids per each Dimension
-beta = 2;     		% Leader Selection Pressure Parameter
-gamma = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
+alpha = 0.1;  		% Tham số lạm phát lưới
+nGrid = 7;   		% Số lượng lưới cho mỗi chiều
+beta = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
+gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
 eva_curve = MOACO(fobj,is_maximization_or_minization,nVar,lb,ub,Ants_num,n_Sample,q,zeta,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);

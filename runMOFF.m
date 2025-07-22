@@ -1,7 +1,7 @@
 clear
 close all
 clc
-%% All Lib
+%% Bổ sung các thư viện
 addpath('algorithms');
 addpath('utils');
 addpath('measurements');
@@ -23,21 +23,26 @@ ub = problem.UB;
 %Pop_num        - Số lượng bầy 
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
+%amma           - Hệ số hấp thụ ánh sáng
+%beta0          - Giá trị cơ sở hệ số hấp dẫn
+%alpha          - Hệ số đột biến
+%alpha_damp     - Hệ số đột biến Tỷ lệ giảm chấn
+%delta          - Phạm vi đột biến đồng nhất
 Pop_num = 50;
-gamma = 1;          % Light Absorption Coefficient
-beta0 = 2;          % Attraction Coefficient Base Value
-alpha = 0.2;        % Mutation Coefficient
-alpha_damp = 0.98;  % Mutation Coefficient Damping Ratio
-delta = 0.05;       % Uniform Mutation Range
+gamma = 1;          
+beta0 = 2;          
+alpha = 0.2;        
+alpha_damp = 0.98;  
+delta = 0.05;       
 m = 2;
 MaxIt = 100;  					
 Archive_size = 100;   			
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
-alphaF = 0.1;  		% Grid Inflation Parameter
-nGrid = 7;   		% Number of Grids per each Dimension
-betaF = 2;     		% Leader Selection Pressure Parameter
-gammaF = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
+alphaF = 0.1;  		% Tham số lạm phát lưới
+nGrid = 7;   		% Số lượng lưới cho mỗi chiều
+betaF = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
+gammaF = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
 eva_curve = MOFF (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,gamma,beta0,alpha,alpha_damp,delta,m,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);

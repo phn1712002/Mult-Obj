@@ -17,7 +17,8 @@ nPopMemeplex = max(nPopMemeplex, nVar+1);
 nPop = nMemeplex*nPopMemeplex;	
 VarSize = [1 nVar];  
 I = reshape(1:nPop, nMemeplex, []);
-q = max(round(0.3*nPopMemeplex),2);      % Number of Parents
+% Number of Parents
+q = max(round(0.3*nPopMemeplex),2);      
 
 % Khởi tạo một 
 Pops=CreateEmptyParticle(nPop);

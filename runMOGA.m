@@ -1,7 +1,7 @@
 clear
 close all
 clc
-%% All Lib
+%% Bổ sung các thư viện
 addpath('algorithms');
 addpath('utils');
 addpath('measurements');
@@ -20,20 +20,20 @@ lb = problem.LB;
 ub = problem.UB;
 
 %% Đầu vào cho MO-GA
-%Pops_num
-%Num_Chr
-%MaxIt          
-%Archive_size   
+%Pop_num        - Số lượng bầy 
+%Num_Chr        - Số lượng vòng đời
+%MaxIt          - Số lượng vòng lặp
+%Archive_size   - Số lượng kho lưu trữ
 Num_Chr = 50;
 Pops_num = 5;             
 MaxIt = 100;  					
 Archive_size = 100;   			
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
-alpha = 0.1;  		% Grid Inflation Parameter
-nGrid = 7;   		% Number of Grids per each Dimension
-beta = 2;     		% Leader Selection Pressure Parameter
-gamma = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
+alpha = 0.1;  		% Tham số lạm phát lưới
+nGrid = 7;   		% Số lượng lưới cho mỗi chiều
+beta = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
+gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
 eva_curve = MOGA (fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,Num_Chr,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_evaluate);

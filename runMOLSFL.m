@@ -1,7 +1,7 @@
 clear
 close all
 clc
-%% All Lib
+%% Bổ sung các thư viện
 addpath('algorithms');
 addpath('utils');
 addpath('measurements');
@@ -20,21 +20,26 @@ lb = problem.LB;
 ub = problem.UB;
 
 %% Đầu vào cho MO-LSFL
-nPopMemeplex = 10;   % Memeplex Size
-nMemeplex = 5;       % Number of Memeplexes
-% FLA Parameters
+%nPopMemeplex   - Kích thước Memeplex
+%nMemeplex      - Số lượng Memeplex
+%alpha        
+%beta 
+%sigma 
+%MaxIt          - Số lượng vòng lặp					
+%Archive_size   - Số lượng kho lưu trữ	
+nPopMemeplex = 10;   
+nMemeplex = 5;       
 alpha = 3;  
 beta = 5;
 sigma = 2;
-%
-MaxIt = 100;        % Số lượng vòng lặp					
-Archive_size = 50;  % Số lượng kho lưu trữ		
+MaxIt = 100;        			
+Archive_size = 50;  
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
-alphaF = 0.1;  		% Grid Inflation Parameter
-nGrid = 10;   		% Number of Grids per each Dimension
-betaF = 4;     		% Leader Selection Pressure Parameter
-gammaF = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
+alphaF = 0.1;  		% Tham số lạm phát lưới
+nGrid = 10;   		% Số lượng lưới cho mỗi chiều
+betaF = 4;     		% Tham số áp suất lựa chọn của người dẫn đầu
+gammaF = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
 eva_curve = MOLSFL(fobj,is_maximization_or_minization,nVar,lb,ub,nPopMemeplex,nMemeplex,alpha,beta,sigma,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);

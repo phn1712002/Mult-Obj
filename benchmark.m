@@ -1,7 +1,7 @@
 clear
 close all
 clc
-%% All Lib
+%% Bổ sung các thư viện
 addpath('algorithms');
 addpath('utils');
 addpath('measurements');
@@ -34,10 +34,10 @@ MaxIt = 100;
 Archive_size = 100;   			
 
 %% Các thông số này được lấy mặc định từ code MO-PSO
-alphaF = 0.1;  		% Grid Inflation Parameter
-nGrid = 7;   		% Number of Grids per each Dimension
-betaF = 2;     		% Leader Selection Pressure Parameter
-gammaF = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
+alphaF = 0.1;  		% Tham số lạm phát lưới
+nGrid = 7;   		% Số lượng lưới cho mỗi chiều
+betaF = 2;     		% Tham số áp suất lựa chọn của người dẫn đầu
+gammaF = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
 eva_curve = MOBFO (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,Ns,C,Ped,Nr,Nc,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);
