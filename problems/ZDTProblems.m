@@ -121,8 +121,6 @@ classdef ZDTProblems
             title('Hypervolume Progress');
             grid on;
             
-            drawnow;
-
             % Update F plot
             f_monitor = callback_outputs(:,end-1:end);
             figure('Name', 'Monitor value F in loop');
@@ -139,6 +137,7 @@ classdef ZDTProblems
             ylabel('Value F');
             title('Monitor value F in loop');
             grid on;
+            drawnow;
         end
     end
 end
