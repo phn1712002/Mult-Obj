@@ -10,8 +10,8 @@
 %       By Seyedali Mirjalili
 % Tất cả nguyên lý dựa trên Single objective Optimization kết hợp 2 thành phần:
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization
-%% MOTlb
-function callback_outputs = MOTlb(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
+%% MOTLB
+function callback_outputs = MOTLB(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks)
 % Khởi tạo bầy
 Pop=CreateEmptyParticle(Pop_num);
 Pop=Initialization(Pop, nVar, ub, lb, fobj);
@@ -28,7 +28,7 @@ for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 
-% MOTlb bắt đầu vòng lặp
+% MOTLB bắt đầu vòng lặp
 for it = 1:MaxIt
     
     % Tính toán trung bình dân số

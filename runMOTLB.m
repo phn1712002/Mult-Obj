@@ -19,7 +19,7 @@ nVar = problem.nVar;
 lb = problem.lb;	
 ub = problem.ub;
 
-%% Đầu vào cho MO-MOTlb
+%% Đầu vào cho MO-MOTLB
 %Pop_num        - Số lượng quần thể
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
@@ -34,6 +34,6 @@ beta = 0.1;     		% Tham số áp suất lựa chọn của người dẫn đầ
 gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (sẽ bị xóa)
 
 %% Run
-callback_outputs = MOTlb (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_callbacks);
+callback_outputs = MOTLB (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_callbacks);
 problem.plot_callbacks(callback_outputs);
 save;
