@@ -127,8 +127,8 @@ for it=1:MaxIt
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     % Gọi hàm callbacks
     if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
-            output_cb = f_callbacks(GetPosition(Pops)',GetCosts(Pops)');
-            callback_outputs = [callback_outputs; output_cb];
+        output_cb = f_callbacks(GetPosition(Pops)',GetCosts(Pops)');
+        callback_outputs = [callback_outputs; output_cb];
     end
 
     end
