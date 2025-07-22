@@ -2,10 +2,12 @@ clear
 close all
 clc
 %% Bổ sung các thư viện
-addpath('algorithms');
-addpath('utils');
-addpath('measurements');
-addpath('problems');
+basePath = fileparts(mfilename('fullpath'));
+addpath(fullfile(basePath, 'algorithms'));
+addpath(fullfile(basePath, 'utils'));
+addpath(fullfile(basePath, 'measurements'));
+addpath(fullfile(basePath, 'problems'));
+
 
 %% Khai báo hàm mục tiêu
 % fobj  - Thông tin của hàm
