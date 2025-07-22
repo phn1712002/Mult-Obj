@@ -11,12 +11,11 @@ addpath(fullfile(basePath, 'problems'));
 
 %% Khai báo hàm mục tiêu
 % fobj  - Thông tin của hàm
-% nVar  - Số lượng chiều của hàm c
 % lb,ub - Điều kiện biên
-nVar = 10;
-problem = ZDTProblems('ZDT1', nVar);
+problem = myNet();
 fobj = @(x) problem.calculation(x);
 f_callbacks = @(x, y) problem.callbacks(x, y);
+nVar = problem.nVar;
 lb = problem.lb;	
 ub = problem.ub;
 is_maximization_or_minization = problem.is_maximization_or_minization;
