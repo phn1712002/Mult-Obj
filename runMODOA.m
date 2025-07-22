@@ -3,6 +3,7 @@ close all
 clc
 %% Bổ sung các thư viện
 basePath = fileparts(mfilename('fullpath'));
+addpath(basePath);
 addpath(fullfile(basePath, 'algorithms'));
 addpath(fullfile(basePath, 'utils'));
 addpath(fullfile(basePath, 'measurements'));
