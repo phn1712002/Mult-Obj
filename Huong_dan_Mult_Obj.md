@@ -1,4 +1,5 @@
 # Các thuật toán tối ưu đa mục tiêu
+
 ## Giới thiệu
 
 Dự án cung cấp các triển khai bằng MATLAB của các thuật toán tối ưu đa mục tiêu phổ biến. Các thuật toán này được thiết kế để giải quyết các bài toán tối ưu với nhiều mục tiêu xung đột.
@@ -38,6 +39,7 @@ Mult-Obj/
 ## Kết quả đầu ra
 
 Kết quả được lưu trong:
+
 - `matlab.mat` - File dữ liệu MATLAB
 - `Optimal.xlsx` - File Excel chứa nghiệm Pareto front
 - Các đồ thị tự động hiển thị
@@ -45,9 +47,11 @@ Kết quả được lưu trong:
 ## Các tiện ích hỗ trợ
 
 Thư mục `utils/` chứa nhiều hàm hỗ trợ quan trọng:
+
 - `OutResults.m`  - Xuất kết quả
 - `plotChart.m`   - Vẽ đồ thị kết quả
 - `{...}.m`         - Các file khác hổ trợ cho tính toán
 
 ## Tác giả
+
 Phạm Hoàng Nam - phn1712002@gmail.com
