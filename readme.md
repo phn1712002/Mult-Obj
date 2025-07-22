@@ -9,21 +9,22 @@ Dự án cung cấp các triển khai bằng MATLAB của các thuật toán t�
 ```
 Multi-Obj/
 ├── algorithms/         # Thư mục chứa các file triển khai thuật toán
-│   ├── MOABC.m            # Artificial Bee Colony
-│   ├── MOACO.m            # Ant Colony Optimization
-│   ├── MOAEBO.m           # ...
+│   ├── MOABC.m                # Artificial Bee Colony
+│   ├── MOACO.m                # Ant Colony Optimization
+│   ├── MOAEBO.m               # ...
 │   └── ... (các thuật toán khác)
 ├── measurements/       # Các hàm đo lường hiệu suất
-│   ├── calculateGD.m      # Tính khoảng cách 
-│   └── calculateHV.m      # Tính Hypervolume
+│   ├── calculateGD.m          # Tính khoảng cách 
+│   └── calculateHV.m          # Tính Hypervolume
 ├── problems/           # Các bài toán mục tiêu
-│   ├── myFitness.m        # Hàm mục tiêu tùy chỉnh
-│   └── ZDTProblems.m      # Các bài toán benchmark ZDT
+│   ├── myFitness.m            # Hàm mục tiêu tùy chỉnh
+│   └── ZDTProblems.m          # Các bài toán 
+│   └── myModel.m              # Mạng DeepLearning
 ├── utils/              # Các tiện ích hỗ trợ
 │   ├── AddNewSolToArchive.m
 │   ├── DetermineDomination.m
 │   └── ... (nhiều tiện ích khác)
-├── benchmark.m         # Script chạy kiểm thử trên ZDT
+├── test.m                 # Script chạy kiểm thử 
 ├── runMOABC.m          # Script chạy thuật toán ABC
 ├── runMOACO.m          # Script chạy thuật toán ACO
 └── ... (các script chạy thuật toán khác)
@@ -35,6 +36,18 @@ Multi-Obj/
 
 1. Chỉnh sửa `problems/myFitness.m` để định nghĩa các hàm mục tiêu của bạn
 2. Chạy script tương ứng của thuật toán (ví dụ `runMOABC.m`)
+
+### Chạy thuật toán với mạng DL hoặc Neuron
+
+1. Chỉnh sửa `problems/myModel.m` để định nghĩa các hàm mục tiêu của bạn
+
+2. Thay đổi script tương ứng của thuật toán (ví dụ `runMOABC.m`)
+   
+   ```matlab
+   problem = myModel();
+   ```
+
+3. Chạy script tương ứng của thuật toán (ví dụ `runMOABC.m`)
 
 ## Kết quả đầu ra
 
