@@ -121,7 +121,7 @@ for it=1:MaxIt
         Pops(I(j,:)) = Memeplex{j};
         % Lưu lại các sói có phù hợp vào kho lưu trữ
         [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
-        plotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
+        PlotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
     end
     % Xuất kết quả
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);

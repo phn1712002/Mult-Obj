@@ -74,7 +74,7 @@ for it=1:MaxIt
         [X,Archive,G] = AddNewSolToArchive(X,Archive,Archive_size,G,nGrid,alphaF,gammaF);
         [X, ~] = SortPops(X,Archive,betaF);
         Best = X(1);
-        plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
+        PlotChart(X, Archive, nCost, 50, is_maximization_or_minization);
     end
 
     % Cập nhật đàn

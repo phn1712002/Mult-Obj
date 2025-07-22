@@ -80,7 +80,7 @@ for IndexPop = 1:1:Pops_num
         end
 
         disp(['It ' num2str(IndexIter) ' - Pop ' num2str(IndexPop) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-        plotChart(X, Archive, nCost, 50, is_maximization_or_minization);
+        PlotChart(X, Archive, nCost, 50, is_maximization_or_minization);
     end
     % Lưu lại các cá voi có phù hợp vào kho lưu trữ
     % Gọi hàm callbacks

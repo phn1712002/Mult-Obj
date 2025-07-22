@@ -49,7 +49,7 @@ Kết quả được lưu trong:
 Thư mục `utils/` chứa nhiều hàm hỗ trợ quan trọng:
 
 - `OutResults.m`  - Xuất kết quả
-- `plotChart.m`   - Vẽ đồ thị kết quả
+- `PlotChart.m`   - Vẽ đồ thị kết quả
 - `{...}.m`         - Các file khác hổ trợ cho tính toán
 
 ## Tác giả

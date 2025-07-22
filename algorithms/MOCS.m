@@ -60,7 +60,7 @@ for it=1:MaxIt
     
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     
-    plotChart(nestsCuckoos, Archive, nCost, 50, is_maximization_or_minization);
+    PlotChart(nestsCuckoos, Archive, nCost, 50, is_maximization_or_minization);
     
     % Gọi hàm callbacks
     if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')

@@ -71,7 +71,7 @@ for it=1:MaxIt
     % Xuất kết quả
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     
-    plotChart(GreyWolves, Archive, nCost, 50, is_maximization_or_minization);
+    PlotChart(GreyWolves, Archive, nCost, 50, is_maximization_or_minization);
     
     % Gọi hàm callbacks
     if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')

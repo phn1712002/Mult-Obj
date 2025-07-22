@@ -58,7 +58,7 @@ for it=1:MaxIt
             [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
             
             % Vẽ đồ thị và xuất thông tin
-            plotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
+            PlotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
     end
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
     % Gọi hàm callbacks

@@ -68,7 +68,7 @@ for it = 1:MaxIt
     
     % Vẽ đồ thị xuất thông tin
     disp(['In iteration ' num2str(it) ': Number of solutions in the archive = ' num2str(numel(Archive))]);
-    plotChart(Foods, Archive, nCost, 50, is_maximization_or_minization);
+    PlotChart(Foods, Archive, nCost, 50, is_maximization_or_minization);
     % Gọi hàm callbacks
     if ~isempty(f_callbacks) && isa(f_callbacks,'function_handle')
         output_cb = f_callbacks(GetPosition(Foods)',GetCosts(Foods)');
