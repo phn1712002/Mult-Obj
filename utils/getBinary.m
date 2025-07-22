@@ -1,4 +1,4 @@
-function [val] = getBinary()
+function [val] = GetBinary()
 
     if rand() < 0.5
         val = 0;

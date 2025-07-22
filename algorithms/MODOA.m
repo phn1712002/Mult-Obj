@@ -53,7 +53,7 @@ for it=1:MaxIt
 
         else % Ăn xác
             r1 = round(1 + (Pop_num - 1) * rand());
-            Pops(r).Position = (exp(beta2) * Pops(r1).Position - ((-1) ^ getBinary()) * Pops(r).Position) / 2; 
+            Pops(r).Position = (exp(beta2) * Pops(r1).Position - ((-1) ^ GetBinary()) * Pops(r).Position) / 2; 
         end
 
         if mean(survival(r)) <= 0.3 % Quy trình sinh tồn
@@ -66,7 +66,7 @@ for it=1:MaxIt
                     band = 0;
                 end
             end
-            Pops(r).Position = Best.Position + (Pops(r1).Position - ((-1) ^ getBinary()) * Pops(r2).Position) / 2; % Section 2.2.4, Strategy 4: Eq.6
+            Pops(r).Position = Best.Position + (Pops(r1).Position - ((-1) ^ GetBinary()) * Pops(r2).Position) / 2; % Section 2.2.4, Strategy 4: Eq.6
         end
         Pops(r).Position = SimpleBounds(Pops(r).Position,lb,ub);
         Pops(r).Cost = fobj(Pops(r).Position);
