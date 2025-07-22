@@ -44,6 +44,7 @@ gammaF = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung 
 %% Run
 callback_outputs = MOLSFL(fobj,is_maximization_or_minization,nVar,lb,ub,nPopMemeplex,nMemeplex,alpha,beta,sigma,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_callbacks);
 problem.plot_callbacks(callback_outputs);
+save;
 
 
 

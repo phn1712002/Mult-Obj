@@ -45,3 +45,4 @@ gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (
 %% Run
 callback_outputs = MOPSO (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,MaxIt,Weight,Weightdamp,Personal_Coefficient,Global_Coefficient,Mutation_Rate,Archive_size,alpha,nGrid,beta,gamma,f_callbacks);
 problem.plot_callbacks(callback_outputs);
+save;

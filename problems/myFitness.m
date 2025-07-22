@@ -40,7 +40,7 @@ classdef myFitness
 
         function plot_callbacks(obj, callback_outputs)
             % Update F plot
-            f_monitor = callback_outputs(:,1:end);
+            f_monitor = eva_curve(:,1:end);
             nPlots = size(f_monitor, 2);
             
             for i=1:nPlots

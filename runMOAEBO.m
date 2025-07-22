@@ -36,3 +36,4 @@ gamma = 2;    		% Áp lực lựa chọn thành viên kho lưu trữ bổ sung (
 %% Run
 callback_outputs = MOAEBO (fobj,is_maximization_or_minization,nVar,lb,ub,Pops_num,MaxIt,Archive_size,alpha,nGrid,beta,gamma,f_callbacks);
 problem.plot_callbacks(callback_outputs);
+save;
