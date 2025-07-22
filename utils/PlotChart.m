@@ -1,4 +1,4 @@
-function PlotChart(Archive, n, n_dims, size_ponit, is_maximization_or_minization)
+function plotChart(Archive, n, n_dims, size_ponit, is_maximization_or_minization)
 
 
     if is_maximization_or_minization
@@ -10,40 +10,72 @@ function PlotChart(Archive, n, n_dims, size_ponit, is_maximization_or_minization
     end
 
     % Vẽ đồ thị động
-    persistent figHandle;
-    if isempty(figHandle) || ~isvalid(figHandle)
-        figHandle = figure('Name', 'Pareto Front Progress');
-    else
-        figure(figHandle);
-    end
+    persistent figHandle1;
+    persistent figHandle2;
+    persistent figHandle3;
+    persistent figHandle4;
+    
+    figHandle1= checkfigHandle(figHandle1, 'Pareto Front');
+    figHandle2 = checkfigHandle(figHandle2, 'Pareto Front 2');
+    figHandle3 = checkfigHandle(figHandle3, 'Pareto Front 3');
+    figHandle4= checkfigHandle(figHandle4, 'Pareto Front4');
+    
 
     hold off
     if(n_dims == 2)
-        y1 = n_costs(1, :);
-        y2 = n_costs(2, :);
-        scatter(y1, y2, size_ponit*3, 'r', 'filled');
-        hold on 
-        y1 = Archive_costs(1, :);
-        y2 = Archive_costs(2, :);
-        scatter(y1, y2, size_ponit, 'b', 'filled');
-        drawnow
-        xlabel('Object 1'); ylabel('Object 2');
-        title('Pareto Front');
+        y1_n = n_costs(1, :);
+        y2_n = n_costs(2, :);
+        y1_ar = Archive_costs(1, :);
+        y2_ar = Archive_costs(2, :);
+        figure(figHandle1);
+        plot2D(y1_n, y2_n, y1_ar, y2_ar, size_ponit, 'f1', 'f2', 'Pareto Front');
     end
     
     if(n_dims == 3)
-        y1 = n_costs(1, :); 
-        y2 = n_costs(2, :);
-        y3 = n_costs(3, :);
-        scatter3(y1, y2, y3, size_ponit*3, 'r', 'filled');
-        hold on
-        y1 = Archive_costs(1, :); 
-        y2 = Archive_costs(2, :);
-        y3 = Archive_costs(3, :);
-        scatter3(y1, y2, y3, size_ponit, 'b', 'filled');
-        xlabel('Object 1'); ylabel('Object 2'); zlabel('Object 3');
-        title('Pareto Front');
+        y1_n = n_costs(1, :);
+        y2_n = n_costs(2, :);
+        y3_n = n_costs(3, :);
+
+        y1_ar = Archive_costs(1, :);
+        y2_ar = Archive_costs(2, :);
+        y3_ar = Archive_costs(3, :);
+
+        figure(figHandle1);
+        plot3D(y1_n, y2_n, y3_n, y1_ar, y2_ar, y3_ar, size_ponit, 'f1', 'f2', 'f3', 'Pareto Front 3D')
+        
+        figure(figHandle2);
+        plot2D(y1_n, y2_n, y1_ar, y2_ar, size_ponit, 'f1', 'f2', 'Pareto Front f1 vs f2');
+        
+        figure(figHandle3);
+        plot2D(y1_n, y3_n, y1_ar, y3_ar, size_ponit, 'f1', 'f3', 'Pareto Front f1 vs f3');
+        
+        figure(figHandle4);
+        plot2D(y2_n, y3_n, y2_ar, y3_ar, size_ponit, 'f2', 'f3', 'Pareto Front f2 vs f3');
+
     end
-    grid on
     drawnow
+end
+
+function plot2D(y1_n, y2_n, y1_ar, y2_ar, size_ponit, x_label, y_label, title_plot)
+    scatter(y1_n, y2_n, size_ponit*3, 'r', 'filled');
+    hold on 
+    scatter(y1_ar, y2_ar, size_ponit, 'b', 'filled');
+    xlabel(x_label); ylabel(y_label);
+    title(title_plot);
+    grid on
+end
+
+function plot3D(y1_n, y2_n, y3_n, y1_ar, y2_ar, y3_ar, size_ponit, x_label, y_label, z_label, title_plot)
+    scatter3(y1_n, y2_n, y3_n, size_ponit*3, 'r', 'filled');
+    hold on
+    scatter3(y1_ar, y2_ar, y3_ar, size_ponit, 'b', 'filled');
+    xlabel(x_label); ylabel(y_label); zlabel(z_label);
+    title(title_plot);
+     grid on
+end
+
+function figHandle = checkfigHandle(figHandle, name_fig)
+    if isempty(figHandle) || ~isvalid(figHandle)
+        figHandle = figure('Name', name_fig);
+    end
 end
