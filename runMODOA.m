@@ -11,25 +11,21 @@ addpath('problems');
 % fobj  - Thông tin của hàm
 % nVar  - Số lượng chiều của hàm c
 % lb,ub - Điều kiện biên
-% is_maximization_or_minization - Max = true, min = false
-nVar = 4;
-is_maximization_or_minization = false;
-problem = ZDTProblems('ZDT1', nVar, is_maximization_or_minization);
+problem = myFitness();
 fobj = @(x) problem.calculation(x);
 f_evaluate = @(x, y) problem.evaluate(x, y);
+is_maximization_or_minization = problem.is_maximization_or_minization;
+nVar = problem.nVar;
 lb = problem.LB;	
 ub = problem.UB;
 
-%% Đầu vào cho MO-GWS
+%% Đầu vào cho MO-DOA
 %Pop_num        - Số lượng bầy 
 %MaxIt          - Số lượng vòng lặp
 %Archive_size   - Số lượng kho lưu trữ
 Pop_num = 50;
-Fmax=2;                 % Maximum frequency
-Fmin=0;                 % Minimum frequency
-alpha=0.5;              % Constant for loudness update
-gamma=0.5;              % Constant for emission rate update
-ro=0.001;               % Initial pulse emission rate
+P = 0.5;                % Hunting or Scavenger?  rate.  See section 3.0.4, P and Q parameters analysis
+Q = 0.7;                % Group attack or persecution?
 MaxIt = 100;  					
 Archive_size = 100;   			
 
@@ -40,5 +36,5 @@ betaF = 2;     		% Leader Selection Pressure Parameter
 gammaF = 2;    		% Extra (to be deleted) Repository Member Selection Pressure
 
 %% Run
-eva_curve = MOBAT (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,Fmax,Fmin,alpha,gamma,ro,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);
+eva_curve = MODOA (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,P,Q,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate);
 problem.plot_eva(eva_curve);

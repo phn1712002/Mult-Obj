@@ -1,8 +1,7 @@
-%%on
+%%
 % Người sáng tạo        : Phạm Hoàng Nam
 % Gmail                 : phn1712002@gmail.com 
 % Tài liệu tham khảo    : 
-%   
 % - MOPSO (Code)  
 %       https://www.mathworks.com/matlabcentral/fileexchange/52870-multi-objective-particle-swarm-optimization-mopso?s_tid=srchtitle
 %       By Yarpiz
@@ -12,11 +11,14 @@
 % Tất cả nguyên lý dựa trên Single Objective Optimization kết hợp 2 thành phần: 
 % Kho lưu trữ (Archive) và Lựa chọn nhà lãnh đạo(SelectLeader) 
 % Được dựa trên code gốc của MOPSO để tạo ra các bản Multi Objective Optimization  
-%% MOGWS
-function eva_curve = MOGWS(fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,options,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
-% Khởi tạo bầy cá voi
+%% MOBAT
+function eva_curve = MOBAT (fobj,is_maximization_or_minization,nVar,lb,ub,Pop_num,Fmax,Fmin,alpha,gamma,ro,MaxIt,Archive_size,alphaF,nGrid,betaF,gammaF,f_evaluate)
+% Khởi tạo bầy 
 Pops=CreateEmptyParticle(Pop_num);
 Pops=Initialization(Pops, nVar, ub, lb, fobj);
+r = rand(Pop_num, 1);     %pulse emission rate for each BAT
+A = rand(Pop_num, 1);     %loudness for each BAT
+
 
 % Khởi tạo kho lưu trữ
 Pops=DetermineDomination(Pops);
@@ -29,37 +31,34 @@ for i=1:numel(Archive)
     [Archive(i).GridIndex, Archive(i).GridSubIndex]=GetGridIndex(Archive(i),G);
 end
 
-luciferin_temp = options.L0*ones(Pop_num, nCost);       % Initialising the luciferin
-decision_range = options.r0*ones(Pop_num, 1);  % Initialising the decision range
-
-% MOGWS bắt đầu
+% MOBAT bắt đầu
 for it=1:MaxIt
-    % Updating the luciferin
-    luciferin_temp = (1-options.rho)*luciferin_temp + options.y*GetCosts(Pops)';
-    luciferin = minCostRandom(luciferin_temp', nCost);
+    Best = SelectLeader(Archive, betaF);
 
-    % Moving the Glow-worms
     for ii = 1:Pop_num
-        curX = Pops(ii).Position;
-        curLuciferin = luciferin(ii);
-        distFromI = EuclidDistance(GetPosition(Pops)',repmat(curX,Pop_num,1));
-        Ni = find((distFromI < decision_range(ii)) & (luciferin > curLuciferin));
-        if isempty(Ni)  % If no glow-worm exists within its local range
-            Pops(ii).Position = curX;
-        else
-            localRangeL = luciferin(Ni);
-            localRangeX = Pops(Ni);
+        Pops(ii).Frequency = Fmin + (Fmax - Fmin) * rand; %randomly chose the frequency
+        Pops(ii).Velocity = Pops(ii).Velocity + (Pops(ii).Position - Best.Position) * Pops(ii).Frequency; %update the velocity
+        Pops(ii).Position = Pops(ii).Position + Pops(ii).Velocity; %update the BAT position
 
-            probs = (localRangeL - curLuciferin)/sum(localRangeL - curLuciferin);
-            selectedPos = RouletteWheelSelection(probs);
-            selectedX = localRangeX(selectedPos).Position;
-            Pops(ii).Position = curX + options.s*(selectedX - curX)/EuclidDistance(selectedX,curX);
+        % Apply simple bounds/limits
+        Pops(ii).Position = SimpleBounds(Pops(ii).Position, lb, ub);
+
+        %check the condition with r
+        if rand > r(ii)
+            % The factor 0.001 limits the step sizes of random walks
+            %               x(ii,:)=Best.Position+0.001*randn(1,dim);
+            eps = -1 + (1 - (-1)) * rand;
+            Pops(ii).Position = Best.Position + eps * mean(A);
+            % Apply simple bounds/limits
+            Pops(ii).Position = SimpleBounds(Pops(ii).Position, lb, ub);
         end
-        % Return back the search agents that go beyond the boundaries of the search space
-        Pops(ii).Position=SimpleBounds(Pops(ii).Position,lb,ub);
-        Pops(ii).Cost=fobj(Pops(ii).Position);
-        neighborSz = length(Ni);
-        decision_range(ii) = min([options.rs,max([0,decision_range(ii) + options.B*(options.nt-neighborSz)])]);
+               
+        % Update if the solution improves, or not too loud
+         Pops(ii).Cost = fobj(Pops(ii).Position); % calculate the objective function
+        if rand < A(ii)
+            A(ii) = alpha * A(ii);
+            r(ii) = ro * (1 - exp(-gamma * it));
+        end
     end
     [Pops,Archive,G] = AddNewSolToArchive(Pops,Archive,Archive_size,G,nGrid,alphaF,gammaF);
     plotChart(Pops, Archive, nCost, 50, is_maximization_or_minization);
@@ -72,4 +71,3 @@ end
 % Xuất kết quả
 OutResults(Archive, is_maximization_or_minization);
 end
-

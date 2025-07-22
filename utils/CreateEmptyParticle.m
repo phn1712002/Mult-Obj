@@ -4,6 +4,7 @@ function particle=CreateEmptyParticle(n)
         n=1;
     end
   
+    empty_particle.Frequency=[];
     empty_particle.Position=[];
     empty_particle.Velocity=[];
     empty_particle.TrialFood=[];
