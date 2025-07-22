@@ -41,9 +41,9 @@ function PlotChart(Archive, n, n_dims, size_ponit, is_maximization_or_minization
         y2 = Archive_costs(2, :);
         y3 = Archive_costs(3, :);
         scatter3(y1, y2, y3, size_ponit, 'b', 'filled');
-        drawnow
         xlabel('Object 1'); ylabel('Object 2'); zlabel('Object 3');
         title('Pareto Front');
     end
     grid on
+    drawnow
 end
