@@ -24,7 +24,7 @@ Multi-Obj/
 │   ├── AddNewSolToArchive.m
 │   ├── DetermineDomination.m
 │   └── ... (nhiều tiện ích khác)
-├── test.m                 # Script chạy kiểm thử 
+├── test.m              # Script chạy kiểm thử 
 ├── runMOABC.m          # Script chạy thuật toán ABC
 ├── runMOACO.m          # Script chạy thuật toán ACO
 └── ... (các script chạy thuật toán khác)
